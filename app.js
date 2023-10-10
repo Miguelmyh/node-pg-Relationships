@@ -10,7 +10,8 @@ const comRoutes = require("./routes/companies");
 app.use("/companies", comRoutes);
 const invRoutes = require("./routes/invoices");
 app.use("/invoices", invRoutes);
-
+const industriesRoutes = require("./routes/industries");
+app.use("/industries", industriesRoutes);
 /** 404 handler */
 
 app.use(function (req, res, next) {

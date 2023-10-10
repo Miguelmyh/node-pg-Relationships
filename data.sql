@@ -1,3 +1,7 @@
+DROP DATABASE biztime;
+
+CREATE DATABASE biztime;
+
 \c biztime
 
 DROP TABLE IF EXISTS invoices;
@@ -19,12 +23,29 @@ CREATE TABLE invoices (
     CONSTRAINT invoices_amt_check CHECK ((amt > (0)::double precision))
 );
 
-INSERT INTO companies
-  VALUES ('apple', 'Apple Computer', 'Maker of OSX.'),
-         ('ibm', 'IBM', 'Big blue.');
+CREATE TABLE industries(
+  code text PRIMARY KEY,
+  field text NOT NULL
+);
 
-INSERT INTO invoices (comp_Code, amt, paid, paid_date)
-  VALUES ('apple', 100, false, null),
-         ('apple', 200, false, null),
-         ('apple', 300, true, '2018-01-01'),
-         ('ibm', 400, false, null);
+-- #inner joins to get the data
+
+CREATE TABLE industries_companies(
+      comp_code text NOT NULL REFERENCES companies ON DELETE CASCADE,
+      ind_code text NOT NULL REFERENCES industries ON DELETE CASCADE,
+      CONSTRAINT PK_INDUSTRIES_COMPANIES PRIMARY KEY (comp_code, ind_code)
+)
+
+-- INSERT INTO companies
+--   VALUES ('apple', 'Apple Computer', 'Maker of OSX.'),
+--          ('ibm', 'IBM', 'Big blue.');
+
+-- INSERT INTO invoices (comp_Code, amt, paid, paid_date)
+--   VALUES ('apple', 100, false, null),
+--          ('apple', 200, false, null),
+--          ('apple', 300, true, '2018-01-01'),
+--          ('ibm', 400, false, null);
+
+-- INSERT INTO industries (code,field) VALUES ('acct', 'accounting');
+
+-- INSERT INTO industries_companies (comp_code, ind_code) VALUES ('apple', 'acct');
